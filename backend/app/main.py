@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api.incidents import router as incident_router
+from backend.app.api.monitoring import router as monitoring_router
 from backend.app.core.config import settings
 from backend.app.core.init_db import init_db
 
@@ -15,6 +16,7 @@ init_db()
 
 # ADD THIS LINE HERE
 app.include_router(incident_router)
+app.include_router(monitoring_router)
 
 # CORS Configuration
 app.add_middleware(
