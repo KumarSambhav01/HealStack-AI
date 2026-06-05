@@ -4,13 +4,19 @@ from backend.app.api.incidents import router as incident_router
 from backend.app.api.monitoring import router as monitoring_router
 from backend.app.core.config import settings
 from backend.app.core.init_db import init_db
+import asyncio
 
+from backend.app.monitoring.scheduler import MonitoringScheduler
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="AI-Powered Autonomous Self-Healing Platform",
     version=settings.PROJECT_VERSION
 )
-
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(
+        MonitoringScheduler.start()
+    )
 # Initialize Database
 init_db()
 
